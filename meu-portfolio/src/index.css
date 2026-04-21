@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code&family=Poppins:wght@400;700&display=swap');
+
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --primary-color: #3b82f6;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+  --font-main: 'Inter', sans-serif;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.theme-terminal {
+  --bg-color: #020617;
+  --text-color: #10b981;
+  --primary-color: #059669;
+  --card-bg: #0f172a;
+  --border-radius: 0px;
+  --font-main: 'Fira Code', monospace;
+}
+
+body.theme-creative {
+  --bg-color: #fdf4ff;
+  --text-color: #701a75;
+  --primary-color: #d946ef;
+  --card-bg: #fae8ff;
+  --border-radius: 30px;
+  --font-main: 'Poppins', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  transition: var(--transition);
+  line-height: 1.6;
+}
+
+section {
+  min-height: 60vh;
+  padding: 80px 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; opacity: 0.8; margin-bottom: 2rem; }
+h3 { font-size: 2rem; margin-bottom: 1.5rem; border-left: 5px solid var(--primary-color); padding-left: 15px; }
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+button:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  section { padding: 60px 5%; }
+}
