@@ -1,13 +1,14 @@
-﻿import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { fileURLToPath, URL } from 'node:url'
+﻿// vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/react-swc'
+import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Portfolio/', // Nome EXATO do seu repositório no GitHub
+  base: './', 
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 })
