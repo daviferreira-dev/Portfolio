@@ -1,13 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 export function useVoiceNav() {
   const [isListening, setIsListening] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
+  
+  // Ref para controlar o estado real e evitar closures travadas
+  const isListeningRef = useRef(false);
+  const recognitionRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (!isListening) return;
+  const scrollToSection = useCallback((id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const yOffset = -80; 
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, []);
 
+  const stopRecognition = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      // Forçamos o encerramento manual para não cair no onend de reinicialização
+      recognitionRef.current.onend = null; 
+      recognitionRef.current = null;
+    }
+    setIsListening(false);
+    isListeningRef.current = false;
+    setFeedbackText('Navegação por voz desativada');
+    setTimeout(() => setFeedbackText(''), 2000);
+  };
+
+  const startRecognition = () => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    
     if (!SpeechRecognition) {
       setFeedbackText('Navegação por voz não suportada');
       return;
@@ -19,52 +44,62 @@ export function useVoiceNav() {
     recognition.interimResults = false;
 
     recognition.onstart = () => {
-      setFeedbackText('Ouvindo...');
+      setFeedbackText('🎙️ Ouvindo...');
     };
 
     recognition.onresult = (event: any) => {
-      let transcript = '';
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript;
-      }
+      const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+      setFeedbackText(`Comando: "${transcript}"`);
 
-      const lowerTranscript = transcript.toLowerCase();
-      setFeedbackText(`Detectado: ${transcript}`);
+      const routes: { [key: string]: string[] } = {
+        'home': ['home', 'início', 'topo', 'voltar'],
+        'sobre': ['sobre', 'quem é', 'perfil', 'biografia', 'mim'],
+        'skills': ['skills', 'habilidades', 'tecnologias', 'conhecimento'],
+        'trajetoria': ['trajetória', 'jornada', 'experiência', 'carreira', 'história'],
+        'projetos': ['projetos', 'portfólio', 'trabalhos', 'feito'],
+        'contato': ['contato', 'falar', 'mensagem', 'email', 'conversar']
+      };
 
-      // Navegação por voz
-      if (lowerTranscript.includes('projetos')) {
-        document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (lowerTranscript.includes('sobre')) {
-        document.getElementById('sobre')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (lowerTranscript.includes('contato')) {
-        document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (lowerTranscript.includes('eventos')) {
-        document.getElementById('eventos')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (lowerTranscript.includes('home') || lowerTranscript.includes('início')) {
-        document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      setTimeout(() => setFeedbackText(''), 3000);
-    };
-
-    recognition.onerror = (event: any) => {
-      setFeedbackText(`Erro: ${event.error}`);
+      Object.entries(routes).forEach(([id, keywords]) => {
+        if (keywords.some(key => transcript.includes(key))) {
+          scrollToSection(id);
+        }
+      });
     };
 
     recognition.onend = () => {
-      setIsListening(false);
+      // SÓ reinicia se a ref disser que ainda deve estar ligado
+      if (isListeningRef.current) {
+        recognition.start();
+      }
     };
 
+    recognition.onerror = (event: any) => {
+      if (event.error === 'no-speech') return;
+      console.error('Erro reconhecimento:', event.error);
+      stopRecognition();
+    };
+
+    recognitionRef.current = recognition;
     recognition.start();
-
-    return () => {
-      recognition.stop();
-    };
-  }, [isListening]);
+    setIsListening(true);
+    isListeningRef.current = true;
+  };
 
   const toggleListening = () => {
-    setIsListening(!isListening);
+    if (isListeningRef.current) {
+      stopRecognition();
+    } else {
+      startRecognition();
+    }
   };
+
+  // Limpeza ao desmontar o componente
+  useEffect(() => {
+    return () => {
+      if (isListeningRef.current) stopRecognition();
+    };
+  }, []);
 
   return { isListening, toggleListening, feedbackText };
 }

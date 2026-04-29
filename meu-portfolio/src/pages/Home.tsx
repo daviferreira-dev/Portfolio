@@ -1,24 +1,29 @@
 import { useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useVoiceNav } from '@/hooks/useVoiceNav';
+
+// Componentes
+import Navbar from '@/components/Navbar';
+import ParticlesBackground from '@/components/ParticlesBackground';
 import IntroZoom from '@/components/IntroZoom';
-import GitHubStats from '@/components/GitHubStats';
-import ScrollZoomHero from '@/components/ScrollZoomHero'; //
-import { useTheme } from '@/contexts/ThemeContext'; //
-import { useVoiceNav } from '@/hooks/useVoiceNav'; //
-import { useVirtualMouse } from '@/hooks/useVirtualMouse'; //
-import { useIsMobile } from '@/hooks/useIsMobile'; //
-
-
+import ScrollZoomHero from '@/components/ScrollZoomHero';
+import About from '@/pages/About';
+import Skills from '@/pages/Skills';
+import Experience from '@/pages/Experience';
+import Projects from '@/pages/Projects';
+import Contact from '@/pages/Contact';
 
 export default function Home() {
-  const [showIntro, setShowIntro] = useState(true); //
-  const { setPortfolioTheme } = useTheme(); //
-  const { isListening, toggleListening, feedbackText } = useVoiceNav(); //
-  const isMobile = useIsMobile(); //
-  const [sensitivity, setSensitivity] = useState(50); //
-  const { isActive: mouseActive, setIsActive: setMouseActive, cursorPos, isClicking } = useVirtualMouse(sensitivity); //
+  const [showIntro, setShowIntro] = useState(true);
+  const [eyeScrollActive, setEyeScrollActive] = useState(false);
+  
+  const { setPortfolioTheme } = useTheme();
+  const { isListening, toggleListening, feedbackText } = useVoiceNav();
+  
+  // Hook de Íris com sistema de calibração e scroll automático
 
   const handleIntroComplete = () => {
-    setShowIntro(false); //
+    setShowIntro(false);
   };
 
   if (showIntro) {
@@ -26,66 +31,73 @@ export default function Home() {
       <IntroZoom
         onComplete={handleIntroComplete}
         mainTitle="Davi Ferreira"
-        subtitle="Desenvolvedor Full Stack JR"
-        description="Portfólio interativo."
-        tunnelWords={["Suas", "Ideias", "Projetos", "Soluções"]}
+        subtitle="Desenvolvedor Full Stack"
+        description="Transformando lógica complexa em experiências digitais."
+        tunnelWords={["Lógica", "Código", "Sistemas", "Full Stack", "Inovação"]}
       />
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* OVERLAY DE ACESSIBILIDADE E FEEDBACK */}
-      <div style={{ position: 'fixed', top: 10, right: 10, zIndex: 100, display: 'flex', gap: '10px', flexDirection: 'column' }}>
-        <button 
+    <div className="min-h-screen bg-black text-white scroll-smooth relative">
+      {/* 1. FUNDO DE PARTÍCULAS INFINITO 
+          Ele renderiza atrás de tudo devido ao z-0 e fixed no componente */}
+      <ParticlesBackground />
+
+      {/* 2. NAVBAR */}
+      <Navbar />
+
+      {/* 3. PAINEL DE COMANDOS (Voz + Íris) */}
+      <div className="fixed top-6 right-6 z-[100] flex flex-col items-end gap-3">
+        {/* Botão de Voz */}
+        <button
           onClick={toggleListening}
-          style={{
-            padding: '10px 15px',
-            background: isListening ? '#a855f7' : '#3d3d54',
-            color: '#f5f3ff',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-            fontWeight: 500
-          }}>
-          🎤 {isListening ? 'Ouvindo...' : 'Voz Off'}
-        </button>
-        {feedbackText && (
-          <span style={{ background: '#3d3d54', color: '#e9d5ff', padding: '10px', borderRadius: '5px', fontSize: '0.85rem' }}>
-            {feedbackText}
+          className={`flex items-center gap-3 px-4 py-2 rounded-full border transition-all duration-300 font-mono text-[10px] font-bold tracking-widest ${
+            isListening
+              ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)]'
+              : 'bg-black/60 backdrop-blur-md border-white/10 text-white/50 hover:border-white/30'
+          }`}
+        >
+          <span className={isListening ? 'animate-pulse' : ''}>
+            {isListening ? '● ESCUTANDO' : '🎤 VOZ OFF'}
           </span>
+        </button>
+
+        {/* Feedback de Voz */}
+        {feedbackText && (
+          <div className="bg-purple-900/80 backdrop-blur-md border border-purple-500/50 px-4 py-2 rounded-xl text-[10px] font-mono text-white uppercase animate-in slide-in-from-right-4">
+            {feedbackText}
+          </div>
         )}
       </div>
 
-      {/* OVERLAY DO MOUSE VIRTUAL */}
-      {mouseActive && (
-        <div style={{
-          position: 'fixed',
-          left: cursorPos.x,
-          top: cursorPos.y,
-          width: '20px',
-          height: '20px',
-          backgroundColor: isClicking ? '#ef4444' : '#a855f7',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 9999,
-          transform: 'translate(-50%, -50%)',
-          boxShadow: `0 0 15px ${isClicking ? '#ef4444' : '#a855f7'}`
-        }} />
-      )}
 
-      {/* NOVO HERO SECTION COM ZOOM NO SCROLL */}
-      {/* Substituímos a section estática pelo componente ScrollZoomHero */}
-      <div onMouseEnter={() => setPortfolioTheme('standard')}>
-        <ScrollZoomHero />
-      </div>
-      {/* GITHUB STATS SECTION */}
-      <div onMouseEnter={() => setPortfolioTheme('standard')}>
-        <GitHubStats />
-      </div>
+      {/* 5. CONTEÚDO PRINCIPAL (Z-10 para ficar acima das partículas) */}
+      <main className="relative z-10">
+        <div id="home">
+          <ScrollZoomHero />
+        </div>
 
-      {/* ... Restante das seções (Projetos, Eventos, Contato) ... */}
+        <div id="sobre">
+          <About />
+        </div>
+
+        <div id="skills">
+          <Skills />
+        </div>
+
+        <div id="trajetoria">
+          <Experience />
+        </div>
+
+        <div id="projetos">
+          <Projects />
+        </div>
+
+        <div id="contato">
+          <Contact />
+        </div>
+      </main>
     </div>
   );
 }

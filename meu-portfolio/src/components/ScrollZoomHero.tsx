@@ -94,7 +94,7 @@ export default function ScrollZoomHero() {
             style={{ transform: "translateX(-50vw) rotateY(90deg)" }}
           >
             <div className={textStyle}>
-              <span className="text-[25vh]">YOUR</span>
+              <span className="text-[25vh]">PROJETOS</span>
               <span className="text-[35vh]">IDEAS</span>
             </div>
           </div>
@@ -106,8 +106,8 @@ export default function ScrollZoomHero() {
             style={{ transform: "translateX(50vw) rotateY(-90deg)" }}
           >
             <div className={textStyle}>
-              <span className="text-[25vh]">YOUR</span>
-              <span className="text-[35vh]">TOOLS</span>
+              <span className="text-[25vh]">IDEIAS</span>
+              <span className="text-[35vh]">TOOL</span>
             </div>
           </div>
 
@@ -115,11 +115,11 @@ export default function ScrollZoomHero() {
           {/* Rotacionada no eixo X para ficar virada para baixo e movida para o topo (-50vh) */}
           <div
             className="absolute flex flex-col items-center justify-center w-[100vw] h-[4000px] bg-black"
-            style={{ transform: "translateY(-50vh) rotateX(-90deg)" }}
+            style={{ transform: "translateY(-45vh) rotateX(-90deg)" }}
           >
             <div className={textStyle}>
               <span className="text-[15vw]">MEU</span>
-              <span className="text-[25vw]">PORTFOLIO</span>
+              <span className="text-[18vw]">PORTFOLIO</span>
             </div>
           </div>
 
@@ -130,7 +130,7 @@ export default function ScrollZoomHero() {
             style={{ transform: "translateY(50vh) rotateX(90deg)" }}
           >
             <div className={textStyle}>
-              <span className="text-[15vw]">YOURS</span>
+              <span className="text-[15vw]">PROJETOS</span>
               <span className="text-[20vw]">TO CREATE</span>
             </div>
           </div>
