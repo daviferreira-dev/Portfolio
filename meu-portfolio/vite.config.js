@@ -4,7 +4,7 @@ import path from 'path' // Você pode precisar importar o 'path' do Node
 
 export default defineConfig({
   plugins: [react()],
-  base: "/Portfolio/",
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

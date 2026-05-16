@@ -1,0 +1,9 @@
+{
+  "buildCommand": "cd meu-portfolio && npm install && npm run build",
+  "outputDirectory": "meu-portfolio/dist",
+  "installCommand": "cd meu-portfolio && npm install",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
