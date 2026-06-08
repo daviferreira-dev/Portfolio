@@ -1,60 +1,42 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
-type Theme = "light" | "dark";
-type PortfolioTheme = "standard" | "terminal" | "creative";
+type Theme = "dark" | "light";
 
 interface ThemeContextType {
   theme: Theme;
-  portfolioTheme: PortfolioTheme;
   toggleTheme?: () => void;
-  setPortfolioTheme: (theme: PortfolioTheme) => void;
   switchable: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-interface ThemeProviderProps {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  switchable?: boolean;
-}
-
-export function ThemeProvider({
-  children,
-  defaultTheme = "light",
-  switchable = false,
-}: ThemeProviderProps) {
+export function ThemeProvider({ children, switchable = false }: { children: ReactNode; switchable?: boolean }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (switchable) {
       const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
+      if (stored === "light" || stored === "dark") return stored;
     }
-    return defaultTheme;
+    return "dark";
   });
 
-  const [portfolioTheme, setPortfolioTheme] = useState<PortfolioTheme>("standard");
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }, [theme]);
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-
     if (switchable) {
       localStorage.setItem("theme", theme);
     }
   }, [theme, switchable]);
 
   const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-      }
+    ? () => setTheme(prev => prev === "dark" ? "light" : "dark")
     : undefined;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable, portfolioTheme, setPortfolioTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,16 +1,14 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { useIsMobile } from '@/hooks/useIsMobile';
 // Ícones do lucide-react para os botões e detalhes (instale se não tiver: npm install lucide-react)
 import { Zap, Target, BookOpen } from 'lucide-react';
 
 export default function About() {
-    const { setPortfolioTheme } = useTheme();
+    
     const isMobile = useIsMobile();
 
     return (
         <section
             className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden"
-            onMouseEnter={() => setPortfolioTheme('standard')}
         >
             {/* FUNDO LIMPO 
         Removemos todo o túnel de texto caótico. Fundo preto puro para foco máximo.

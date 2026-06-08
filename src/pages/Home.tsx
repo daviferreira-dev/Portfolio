@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { useVoiceNav } from '@/hooks/useVoiceNav';
 
 // Componentes
@@ -17,7 +16,7 @@ export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
   const [eyeScrollActive, setEyeScrollActive] = useState(false);
   
-  const { setPortfolioTheme } = useTheme();
+  
   const { isListening, toggleListening, feedbackText } = useVoiceNav();
   
   // Hook de Íris com sistema de calibração e scroll automático

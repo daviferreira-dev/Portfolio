@@ -1,4 +1,3 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { 
   Briefcase, 
   Trophy, 
@@ -14,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function Experience() {
-  const { setPortfolioTheme } = useTheme();
+  
 
   const timeline = [
     {
@@ -114,7 +113,6 @@ export default function Experience() {
     <section 
       id="trajetoria"
       className="min-h-screen bg-black flex flex-col items-center py-24 px-6 overflow-hidden"
-      onMouseEnter={() => setPortfolioTheme('standard')}
     >
       <div className="text-center mb-24 space-y-4">
         <h2 className="text-sm font-mono text-cyan-400 tracking-widest uppercase flex items-center justify-center gap-2">
