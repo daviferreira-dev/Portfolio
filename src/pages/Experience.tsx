@@ -63,14 +63,6 @@ export default function Experience() {
       tech: ["HTML5/CSS3", "Node.js", "PHP", "MySQL", "Redes", "Git", "GitHub"]
     },
     {
-      year: "2024",
-      title: "Google Cloud Engine",
-      company: "Certificação Profissional",
-      description: "Implement Load Balancing on Compute Engine. Configuração de infraestrutura escalável na nuvem.",
-      icon: <Cloud className="text-purple-500" size={22} />,
-      tech: ["GCP", "Cloud Computing", "Load Balancing"]
-    },
-    {
       year: "2023 — 2024",
       title: "Jovem Mentor FLL",
       company: "Temporada Masterpiece",
