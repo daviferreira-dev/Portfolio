@@ -17,12 +17,24 @@ export default function Experience() {
 
   const timeline = [
     {
-      year: "2025 — 2027 (Atualmente)",
+      year: "2026 — 2027 (Atualmente)",
       title: "Graduação em ADS",
       company: "SENAI Taubaté",
       description: "Análise e Desenvolvimento de Sistemas. Foco em engenharia de software, gestão de projetos ágeis e arquitetura de sistemas.",
+      icon: <Briefcase className="text-cyan-400" size={22} />,
+      tech: ["Engenharia de Software", "Programação FrontEnd", "Programação BackEnd","Agile"]
+    },
+    {
+      year: "2026 (Atualmente)",
+      title: "Estágiario em Suporte Técnico",
+      company: "SoluCX - Solutions for Customer Experience",
+      description: "Atuação na área de Employee Experience (EX), prestando suporte técnico, resolução de chamados e sustentação de sistemas e ferramentas corporativas, contribuindo para a continuidade das operações internas.",
+      start: {
+        action: "Colaboração com equipes multidisciplinares na identificação e resolução de problemas técnicos e demandas de usuários.",
+        result: "Aplicação de boas práticas de tecnologia, atendimento e experiência do usuário, apoiando a eficiência dos processos internos."
+      },
       icon: <BookOpen className="text-cyan-400" size={22} />,
-      tech: ["Engenharia de Software", "Sistemas Distribuídos", "Agile"]
+      tech: ["Suporte Técnico", "Employee Experience (EX)", "Sistemas Corporativos"]
     },
     {
       year: "2024 — Dez 2025",
