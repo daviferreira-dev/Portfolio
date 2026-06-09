@@ -21,7 +21,7 @@ export default function Experience() {
       title: "Graduação em ADS",
       company: "SENAI Taubaté",
       description: "Análise e Desenvolvimento de Sistemas. Foco em engenharia de software, gestão de projetos ágeis e arquitetura de sistemas.",
-      icon: <Briefcase className="text-cyan-400" size={22} />,
+      icon: <BookOpen className="text-cyan-400" size={22} />,
       tech: ["Engenharia de Software", "Programação FrontEnd", "Programação BackEnd","Agile"]
     },
     {
@@ -33,7 +33,7 @@ export default function Experience() {
         action: "Colaboração com equipes multidisciplinares na identificação e resolução de problemas técnicos e demandas de usuários.",
         result: "Aplicação de boas práticas de tecnologia, atendimento e experiência do usuário, apoiando a eficiência dos processos internos."
       },
-      icon: <BookOpen className="text-cyan-400" size={22} />,
+      icon: <Briefcase className="text-cyan-400" size={22} />,
       tech: ["Suporte Técnico", "Employee Experience (EX)", "Sistemas Corporativos"]
     },
     {
